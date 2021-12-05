@@ -90,6 +90,20 @@ public class PureHuskySort<X extends Comparable<X>> {
         System.out.println("husky Average Time in ms: " + toMS(avg));
     	
     }
+    
+    public static void sortChinese(String[] zhongwen) {
+        final PureHuskySort<String> sorter = new PureHuskySort<>(HuskyCoderFactory.asciiCoder, false, false);
+        //String[] zhongwen = FileUtil.getAllNamesToArray();
+        String[] pinyin = preprocess(zhongwen);
+        int[] map = new int[zhongwen.length];
+        for (int ii = 0; ii < map.length; ii++)
+            map[ii] = ii;
+        sorter.sort(pinyin,map);
+        String[] rawA = new String[zhongwen.length];
+        System.arraycopy(zhongwen,0,rawA,0,zhongwen.length);
+        for(int ii = 0; ii < zhongwen.length;ii++)
+            zhongwen[ii] = rawA[map[ii]];
+    }
     private static double toMS(long nano) {
         return TimeUnit.MILLISECONDS.convert(nano, TimeUnit.NANOSECONDS);
     }
